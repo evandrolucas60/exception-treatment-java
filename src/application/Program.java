@@ -4,6 +4,7 @@ import java.util.Locale;
 import java.util.Scanner;
 
 import model.entities.Account;
+import model.exceptions.DomainException;
 
 public class Program {
 
@@ -11,7 +12,7 @@ public class Program {
 		Locale.setDefault(Locale.US);
 		Scanner sc = new Scanner (System.in);
 			
-		try {
+		
 			System.out.println("Enter account data");
 			System.out.print("Number: ");
 			int number = sc.nextInt();
@@ -27,17 +28,14 @@ public class Program {
 			System.out.println();
 			System.out.print("Enter amount for withdraw: ");
 			double withdraw = sc.nextDouble();
-			if(withdraw <= withdrawAmount) {
-				account.withdraw(withdraw);
-				System.out.print("New balance: ");
-				System.out.printf("%.2f",account.getBalance());
-				
-			} else {
-				System.out.println("Withdraw error: The amount exceeds withdraw limit");
-			}
 			
-		} catch (Exception e) {
-			System.out.println(e);
+			
+			try {
+				account.withdraw(withdraw);
+				System.out.printf("New balance: %.2f%n", account.getBalance());
+				
+			} catch (DomainException e) {
+			System.out.println(e.getMessage());
 		}
 		
 		sc.close();
